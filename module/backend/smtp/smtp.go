@@ -24,8 +24,8 @@ func init() {
 }
 
 func cliInit(ctx context.Context, params ...interface{}) (context.Context, error) {
-	flags := ctx.Value(mainager.Key("cli-flags")).([]cli.Flag)
-	flags = append(flags, []cli.Flag{
+	app := params[0].(*cli.App)
+	app.Flags = append(app.Flags, []cli.Flag{
 		cli.StringFlag{
 			Name:   "smtp-url",
 			Usage:  "SMTP server url (i.e, `smtp://user:pass@host:port`). If empty, SMTP will be disabled.",
@@ -33,7 +33,7 @@ func cliInit(ctx context.Context, params ...interface{}) (context.Context, error
 			Value:  "smtp://127.0.0.1:25",
 		},
 	}...)
-	return context.WithValue(ctx, mainager.Key("cli-flags"), flags), nil
+	return ctx, nil
 }
 
 func cliParse(ctx context.Context, params ...interface{}) (context.Context, error) {
@@ -63,8 +63,11 @@ func backendInit(ctx context.Context, params ...interface{}) (context.Context, e
 		portStr = "25" // default port value
 	}
 	port, _ := strconv.ParseInt(portStr, 10, 64)
-	username := u.User.Username()
-	password, _ := u.User.Password()
+	var username, password string
+	if u.User != nil {
+		username = u.User.Username()
+		password, _ = u.User.Password()
+	}
 
 	client := gomail.NewDialer(host, int(port), username, password)
 	ctx = context.WithValue(ctx, mainager.Key("mainager.module.backend.smtp.client"), client)

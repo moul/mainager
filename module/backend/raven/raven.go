@@ -21,15 +21,15 @@ func init() {
 }
 
 func cliInit(ctx context.Context, params ...interface{}) (context.Context, error) {
-	flags := ctx.Value(mainager.Key("cli-flags")).([]cli.Flag)
-	flags = append(flags, []cli.Flag{
+	app := params[0].(*cli.App)
+	app.Flags = append(app.Flags, []cli.Flag{
 		cli.StringFlag{
 			Name:   "raven-dsn",
 			Usage:  "Raven DSN. If empty, raven will be disabled",
 			EnvVar: "RAVEN_DSN",
 		},
 	}...)
-	return context.WithValue(ctx, mainager.Key("cli-flags"), flags), nil
+	return ctx, nil
 }
 
 func cliParse(ctx context.Context, params ...interface{}) (context.Context, error) {

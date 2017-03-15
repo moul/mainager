@@ -5,3 +5,5 @@ type Module struct {
 	Hooks        Hooks
 	Dependencies []string
 }
+
+type Modules map[string]Module

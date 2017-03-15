@@ -1,11 +1,9 @@
 package mainager
 
-import "context"
-
 var instance *Mainager
 
 func init() {
-	instance = New(context.Background())
+	instance = New()
 }
 
 func Instance() *Mainager {

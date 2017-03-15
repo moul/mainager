@@ -1,30 +1,32 @@
 package mainager
 
-import (
-	"context"
-	"fmt"
-)
+import "context"
 
 type Mainager struct {
-	modules []Module
-	ctx     context.Context
+	modules Modules
 }
 
-func New(ctx context.Context) *Mainager {
+func New() *Mainager {
 	return &Mainager{
-		modules: make([]Module, 0),
-		ctx:     ctx,
+		modules: make(Modules, 0),
 	}
 }
 
 func (m *Mainager) Register(module Module) {
-	m.modules = append(m.modules, module)
+	m.modules[module.Name] = module
 }
 
-func (m *Mainager) InvokeAll(hook string, params ...interface{}) error {
-	return fmt.Errorf("not implemented")
-}
+func (m *Mainager) InvokeAll(ctx context.Context, hookName string, params ...interface{}) (context.Context, error) {
+	for _, module := range m.modules {
+		hook, found := module.Hooks[hookName]
+		if !found {
+			continue
+		}
 
-func (m *Mainager) Invoke(module, hook string, params ...interface{}) error {
-	return fmt.Errorf("not implemented")
+		var err error
+		if ctx, err = hook(ctx, params...); err != nil {
+			return ctx, err
+		}
+	}
+	return ctx, nil
 }
