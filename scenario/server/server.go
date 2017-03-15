@@ -9,6 +9,8 @@ import (
 
 	"github.com/moul/mainager"
 	"github.com/urfave/cli"
+
+	_ "github.com/moul/mainager/module/server/grpc"
 )
 
 func Run(ctx context.Context) error {

@@ -21,6 +21,9 @@ func init() {
 }
 
 func cliInit(ctx context.Context, params ...interface{}) (context.Context, error) {
+	if len(params) != 1 {
+		return ctx, fmt.Errorf("not enough arguments")
+	}
 	app := params[0].(*cli.App)
 	app.Flags = append(app.Flags, []cli.Flag{
 		cli.StringFlag{
@@ -34,7 +37,7 @@ func cliInit(ctx context.Context, params ...interface{}) (context.Context, error
 
 func cliParse(ctx context.Context, params ...interface{}) (context.Context, error) {
 	if len(params) != 1 {
-		return nil, fmt.Errorf("not enough arguments")
+		return ctx, fmt.Errorf("not enough arguments")
 	}
 	c := params[0].(*cli.Context)
 	return context.WithValue(ctx, mainager.Key("mainager.module.backend.raven.settings.dsn"), c.String("raven-dsn")), nil
