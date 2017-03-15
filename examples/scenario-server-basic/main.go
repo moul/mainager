@@ -3,8 +3,7 @@ package main
 import (
 	"context"
 
-	_ "github.com/moul/mainager/module/backend/raven"
-	_ "github.com/moul/mainager/module/backend/smtp"
+	_ "github.com/moul/mainager/module/service/ping-http"
 	"github.com/moul/mainager/scenario/server"
 )
 
