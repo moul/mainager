@@ -11,6 +11,7 @@ import (
 	"github.com/urfave/cli"
 
 	_ "github.com/moul/mainager/module/server/grpc"
+	_ "github.com/moul/mainager/module/server/http"
 )
 
 func Run(ctx context.Context) error {
