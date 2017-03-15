@@ -11,3 +11,7 @@ func init() {
 func Instance() *Mainager {
 	return instance
 }
+
+func Register(module Module) {
+	instance.Register(module)
+}
