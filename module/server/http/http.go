@@ -14,7 +14,7 @@ import (
 
 func init() {
 	mainager.Register(mainager.Module{
-		Name: "mainager.module.server.http",
+		Name: "github.com/moul/mainager/module/server/http",
 		Hooks: mainager.Hooks{
 			"cli-init":     cliInit,
 			"cli-parse":    cliParse,
@@ -45,12 +45,12 @@ func cliParse(ctx context.Context, params ...interface{}) (context.Context, erro
 		return ctx, fmt.Errorf("not enough arguments")
 	}
 	c := params[0].(*cli.Context)
-	return context.WithValue(ctx, mainager.Key("mainager.module.server.http.settings.bind-address"), c.String("http-bind")), nil
+	return context.WithValue(ctx, mainager.Key("github.com/moul/mainager/module/server/http.settings.bind-address"), c.String("http-bind")), nil
 }
 
 func serverInit(ctx context.Context, params ...interface{}) (context.Context, error) {
 	mux := http.NewServeMux()
-	return context.WithValue(ctx, mainager.Key("mainager.module.server.http.mux"), mux), nil
+	return context.WithValue(ctx, mainager.Key("github.com/moul/mainager/module/server/http.mux"), mux), nil
 }
 
 func serverStart(ctx context.Context, params ...interface{}) (context.Context, error) {
@@ -59,13 +59,13 @@ func serverStart(ctx context.Context, params ...interface{}) (context.Context, e
 	}
 	errc := params[0].(chan error)
 
-	mux := ctx.Value(mainager.Key("mainager.module.server.http.mux")).(*http.ServeMux)
-	address := ctx.Value(mainager.Key("mainager.module.server.http.settings.bind-address")).(string)
+	mux := ctx.Value(mainager.Key("github.com/moul/mainager/module/server/http.mux")).(*http.ServeMux)
+	address := ctx.Value(mainager.Key("github.com/moul/mainager/module/server/http.settings.bind-address")).(string)
 	if address == "" {
 		return ctx, nil
 	}
 
-	log.Printf("mainager.module.server.http listen: %q", address)
+	log.Printf("github.com/moul/mainager/module/server/http: listen %q", address)
 	go func() {
 		errc <- http.ListenAndServe(address, handlers.LoggingHandler(os.Stderr, mux))
 	}()

@@ -11,16 +11,16 @@ import (
 
 func init() {
 	mainager.Register(mainager.Module{
-		Name: "mainager.module.service.ping",
+		Name: "github.com/moul/mainager/module/service/ping-http",
 		Hooks: mainager.Hooks{
 			"service-init": serviceInit,
 		},
-		Dependencies: []string{"mainager.module.server.http"},
+		Dependencies: []string{"github.com/moul/mainager/module/server/http"},
 	})
 }
 
 func serviceInit(ctx context.Context, params ...interface{}) (context.Context, error) {
-	mux := ctx.Value(mainager.Key("mainager.module.server.http.mux")).(*http.ServeMux)
+	mux := ctx.Value(mainager.Key("github.com/moul/mainager/module/server/http.mux")).(*http.ServeMux)
 
 	mux.HandleFunc("/ping", func(w http.ResponseWriter, req *http.Request) {
 		fmt.Fprintf(w, "pong")

@@ -14,7 +14,7 @@ import (
 
 func init() {
 	mainager.Register(mainager.Module{
-		Name: "mainager.module.backend.smtp",
+		Name: "github.com/moul/mainager/module/backend/smtp",
 		Hooks: mainager.Hooks{
 			"cli-init":     cliInit,
 			"cli-parse":    cliParse,
@@ -44,11 +44,11 @@ func cliParse(ctx context.Context, params ...interface{}) (context.Context, erro
 		return ctx, fmt.Errorf("not enough arguments")
 	}
 	c := params[0].(*cli.Context)
-	return context.WithValue(ctx, mainager.Key("mainager.module.backend.smtp.settings.url"), c.String("smtp-url")), nil
+	return context.WithValue(ctx, mainager.Key("github.com/moul/mainager/module/backend/smtp.settings.url"), c.String("smtp-url")), nil
 }
 
 func backendInit(ctx context.Context, params ...interface{}) (context.Context, error) {
-	smtpURL := ctx.Value(mainager.Key("mainager.module.backend.smtp.settings.url")).(string)
+	smtpURL := ctx.Value(mainager.Key("github.com/moul/mainager/module/backend/smtp.settings.url")).(string)
 	if smtpURL == "" {
 		return ctx, nil
 	}
@@ -73,7 +73,7 @@ func backendInit(ctx context.Context, params ...interface{}) (context.Context, e
 	}
 
 	client := gomail.NewDialer(host, int(port), username, password)
-	ctx = context.WithValue(ctx, mainager.Key("mainager.module.backend.smtp.client"), client)
+	ctx = context.WithValue(ctx, mainager.Key("github.com/moul/mainager/module/backend/smtp.client"), client)
 
 	return ctx, nil
 }

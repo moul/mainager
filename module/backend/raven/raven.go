@@ -11,7 +11,7 @@ import (
 
 func init() {
 	mainager.Register(mainager.Module{
-		Name: "mainager.module.backend.raven",
+		Name: "github.com/moul/mainager/module/backend/raven",
 		Hooks: mainager.Hooks{
 			"cli-init":     cliInit,
 			"cli-parse":    cliParse,
@@ -40,11 +40,11 @@ func cliParse(ctx context.Context, params ...interface{}) (context.Context, erro
 		return ctx, fmt.Errorf("not enough arguments")
 	}
 	c := params[0].(*cli.Context)
-	return context.WithValue(ctx, mainager.Key("mainager.module.backend.raven.settings.dsn"), c.String("raven-dsn")), nil
+	return context.WithValue(ctx, mainager.Key("github.com/moul/mainager/module/backend/raven.settings.dsn"), c.String("raven-dsn")), nil
 }
 
 func backendInit(ctx context.Context, params ...interface{}) (context.Context, error) {
-	dsn := ctx.Value(mainager.Key("mainager.module.backend.raven.settings.dsn")).(string)
+	dsn := ctx.Value(mainager.Key("github.com/moul/mainager/module/backend/raven.settings.dsn")).(string)
 	if dsn == "" {
 		return ctx, nil
 	}
@@ -54,5 +54,5 @@ func backendInit(ctx context.Context, params ...interface{}) (context.Context, e
 		return ctx, nil
 	}
 
-	return context.WithValue(ctx, mainager.Key("mainager.module.backend.raven.client"), client), nil
+	return context.WithValue(ctx, mainager.Key("github.com/moul/mainager/module/backend/raven.client"), client), nil
 }
