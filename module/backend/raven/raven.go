@@ -51,7 +51,7 @@ func backendInit(ctx context.Context, params ...interface{}) (context.Context, e
 
 	client, err := raven.New(dsn)
 	if err != nil {
-		return ctx, nil
+		return ctx, err
 	}
 
 	return context.WithValue(ctx, mainager.Key("github.com/moul/mainager/module/backend/raven.client"), client), nil
