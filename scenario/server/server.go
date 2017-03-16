@@ -35,6 +35,8 @@ func Run(ctx context.Context) error {
 		if ctx, err = m.InvokeAll(ctx, "backend-init"); err != nil {
 			panic(err)
 		}
+		defer m.InvokeAll(ctx, "backend-stop")
+
 		if ctx, err = m.InvokeAll(ctx, "server-init"); err != nil {
 			panic(err)
 		}
