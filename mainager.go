@@ -4,11 +4,13 @@ import "context"
 
 type Mainager struct {
 	modules Modules
+	context Context
 }
 
 func New() *Mainager {
 	return &Mainager{
 		modules: make(Modules, 0),
+		context: make(Context, 0),
 	}
 }
 

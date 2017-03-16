@@ -21,6 +21,10 @@ func init() {
 			"server-init":  serverInit,
 			"server-start": serverStart,
 		},
+		Context: mainager.Context{
+			"settings.bind-address": ":8000",
+			// "mux": nil,
+		},
 	})
 }
 
@@ -45,6 +49,7 @@ func cliParse(ctx context.Context, params ...interface{}) (context.Context, erro
 		return ctx, fmt.Errorf("not enough arguments")
 	}
 	c := params[0].(*cli.Context)
+
 	return context.WithValue(ctx, mainager.Key("github.com/moul/mainager/module/server/http.settings.bind-address"), c.String("http-bind")), nil
 }
 
